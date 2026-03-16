@@ -7,27 +7,39 @@ import Circles from "../../components/Circles";
 
 const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState("");
+  const [form, setForm] = useState({
+    name: "", email: "", subject: "", message: "",
+  });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
+    setStatus("");
 
-    const myForm = event.target;
-    const formData = new FormData(myForm);
-
-    fetch("/__forms.html", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData).toString(),
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          alert("Thank you. I will get back to you ASAP.");
-          myForm.reset();
-        }
-      })
-      .catch((error) => console.log(error))
-      .finally(() => setIsLoading(false));
+    try {
+      const res = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStatus("success");
+        setForm({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus("error");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -35,11 +47,8 @@ const Contact = () => {
       <Bulb />
       <Circles />
       <div className="container mx-auto text-center xl:text-left flex items-center justify-center">
-
-        {/* text & form */}
         <div className="flex flex-col w-full max-w-[700px]">
 
-          {/* title */}
           <motion.h2
             variants={fadeIn("up", 0.2)}
             initial="hidden"
@@ -47,10 +56,9 @@ const Contact = () => {
             exit="hidden"
             className="h2 text-center mb-12"
           >
-            Let's <span className="text-accent">connect.</span>
+            Let&apos;s <span className="text-accent">connect.</span>
           </motion.h2>
 
-          {/* form */}
           <motion.form
             variants={fadeIn("up", 0.4)}
             initial="hidden"
@@ -59,17 +67,15 @@ const Contact = () => {
             className="flex flex-col gap-6 w-full mx-auto"
             onSubmit={handleSubmit}
             autoComplete="off"
-            name="contact"
           >
-            <input type="hidden" name="form-name" value="contact" />
-
-            {/* name + email */}
             <div className="flex gap-x-6 w-full">
               <input
                 type="text"
                 name="name"
                 placeholder="Name"
                 className="input"
+                value={form.name}
+                onChange={handleChange}
                 disabled={isLoading}
                 required
               />
@@ -78,48 +84,55 @@ const Contact = () => {
                 name="email"
                 placeholder="E-mail"
                 className="input"
+                value={form.email}
+                onChange={handleChange}
                 disabled={isLoading}
                 required
               />
             </div>
 
-            {/* subject */}
             <input
               type="text"
               name="subject"
               placeholder="Subject"
               className="input"
+              value={form.subject}
+              onChange={handleChange}
               disabled={isLoading}
               required
             />
 
-            {/* message */}
             <textarea
               name="message"
               placeholder="Message..."
               className="textarea"
+              value={form.message}
+              onChange={handleChange}
               disabled={isLoading}
               required
             />
 
-            {/* button */}
+            {status === "success" && (
+              <p className="text-green-400">✅ Message sent! I'll get back to you soon.</p>
+            )}
+            {status === "error" && (
+              <p className="text-red-400">❌ Something went wrong. Please try again.</p>
+            )}
+
             <button
               type="submit"
               className="btn rounded-full border border-white/50 max-w-[170px] px-8 transition-all duration-300 flex items-center justify-center overflow-hidden hover:border-accent group"
               disabled={isLoading}
             >
               <span className="group-hover:-translate-y-[120%] group-hover:opacity-0 transition-all duration-500">
-                Let's talk
+                {isLoading ? "Sending..." : "Let's talk"}
               </span>
-              <BsArrowRight
-                className="-translate-y-[120%] opacity-0 group-hover:flex group-hover:-translate-y-0 group-hover:opacity-100 transition-all duration-300 absolute text-[22px]"
-              />
+              <BsArrowRight className="-translate-y-[120%] opacity-0 group-hover:flex group-hover:-translate-y-0 group-hover:opacity-100 transition-all duration-300 absolute text-[22px]" />
             </button>
-          </motion.form>
 
+          </motion.form>
         </div>
       </div>
-      
     </section>
   );
 };
