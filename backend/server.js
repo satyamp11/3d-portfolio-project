@@ -4,12 +4,16 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
+
+// ✅ CORS (allow your Vercel frontend)
 app.use(cors({
   origin: "https://3d-portfolio-project-pi.vercel.app",
   methods: ["GET", "POST"],
 }));
+
 app.use(express.json());
 
+// ✅ Nodemailer setup
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -18,7 +22,10 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// ✅ API route
 app.post("/api/contact", async (req, res) => {
+  console.log("📩 Request received:", req.body); // debug log
+
   const { name, email, subject, message } = req.body;
 
   const mailOptions = {
@@ -37,12 +44,14 @@ app.post("/api/contact", async (req, res) => {
 
   try {
     await transporter.sendMail(mailOptions);
+    console.log("✅ Email sent successfully");
     res.status(200).json({ success: true });
   } catch (error) {
-    console.error(error);
+    console.error("❌ ERROR:", error); // important debug
     res.status(500).json({ success: false });
   }
 });
 
+// ✅ Server start
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
