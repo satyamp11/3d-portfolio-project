@@ -75,12 +75,20 @@ body {
   position: relative !important;
 }
 
-/* ===== SWIPER PAGINATION (FINAL CLEAN VERSION) ===== */
+/* ===== 🔥 FINAL SWIPER FIX ===== */
 
+/* give space below slider */
+.swiper {
+  padding-bottom: 40px;
+}
+
+/* pagination position (VISIBLE FIX) */
 .swiper-pagination {
+  position: absolute !important;
+  bottom: 0px !important; /* 👈 KEY FIX */
+  width: 100%;
   display: flex !important;
   justify-content: center !important;
-  margin-top: 20px !important;
 }
 
 /* normal dots */
