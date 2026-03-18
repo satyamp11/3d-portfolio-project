@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { BsArrowRight } from "react-icons/bs";
 import { fadeIn } from "../../variants";
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import Bulb from "../../components/Bulb";
 import Circles from "../../components/Circles";
@@ -16,7 +16,10 @@ const Contact = () => {
     message: "",
   });
 
-  const formRef = useRef(); // ✅ important
+  // ✅ Initialize EmailJS (IMPORTANT)
+  useEffect(() => {
+    emailjs.init("KVI6B4WvHK1SgpuR4");
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -29,12 +32,21 @@ const Contact = () => {
     setStatus("");
 
     try {
-      await emailjs.sendForm(
+      const result = await emailjs.send(
         "service_bwvvsh4",
         "template_xmy8ih4",
-        formRef.current,
-        "KVI6B4WvHK1SgpuR4"
+        {
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          message: form.message,
+        },
+        {
+          publicKey: "KVI6B4WvHK1SgpuR4",
+        }
       );
+
+      console.log("SUCCESS:", result);
 
       setStatus("success");
       setForm({
@@ -43,6 +55,7 @@ const Contact = () => {
         subject: "",
         message: "",
       });
+
     } catch (error) {
       console.error("ERROR:", error);
       setStatus("error");
@@ -69,7 +82,6 @@ const Contact = () => {
           </motion.h2>
 
           <motion.form
-            ref={formRef} // ✅ important
             variants={fadeIn("up", 0.4)}
             initial="hidden"
             animate="show"
