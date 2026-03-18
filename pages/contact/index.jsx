@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { BsArrowRight } from "react-icons/bs";
 import { fadeIn } from "../../variants";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import emailjs from "@emailjs/browser";
 import Bulb from "../../components/Bulb";
 import Circles from "../../components/Circles";
 
@@ -9,33 +10,41 @@ const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState("");
   const [form, setForm] = useState({
-    name: "", email: "", subject: "", message: "",
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
+
+  const formRef = useRef(); // ✅ important
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // ✅ FINAL WORKING SUBMIT FUNCTION
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setStatus("");
 
     try {
-      const res = await fetch("https://threed-portfolio-project.onrender.com/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+      await emailjs.sendForm(
+        "service_bwvvsh4",
+        "template_xmy8ih4",
+        formRef.current,
+        "KVI6B4WvHK1SgpuR4"
+      );
+
+      setStatus("success");
+      setForm({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
       });
-      const data = await res.json();
-      if (data.success) {
-        setStatus("success");
-        setForm({ name: "", email: "", subject: "", message: "" });
-      } else {
-        setStatus("error");
-      }
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error("ERROR:", error);
       setStatus("error");
     } finally {
       setIsLoading(false);
@@ -43,7 +52,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="min-h-screen bg-primary/30 flex items-center py-32 relative overflow-hidden">
+    <section className="min-h-screen bg-primary/30 flex items-center py-32 relative overflow-hidden">
       <Bulb />
       <Circles />
       <div className="container mx-auto text-center xl:text-left flex items-center justify-center">
@@ -60,6 +69,7 @@ const Contact = () => {
           </motion.h2>
 
           <motion.form
+            ref={formRef} // ✅ important
             variants={fadeIn("up", 0.4)}
             initial="hidden"
             animate="show"
@@ -113,10 +123,14 @@ const Contact = () => {
             />
 
             {status === "success" && (
-              <p className="text-green-400">✅ Message sent! I'll get back to you soon.</p>
+              <p className="text-green-400">
+                ✅ Message sent! I&apos;ll get back to you soon.
+              </p>
             )}
             {status === "error" && (
-              <p className="text-red-400">❌ Something went wrong. Please try again.</p>
+              <p className="text-red-400">
+                ❌ Something went wrong. Please try again.
+              </p>
             )}
 
             <button
