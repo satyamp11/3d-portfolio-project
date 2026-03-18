@@ -2,23 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== FIX GPU RENDER ===== */
 .translate-z-0 {
   transform: translateZ(0px);
 }
 
-.swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
-.swiper-pagination-horizontal.swiper-pagination-bullets
-  .swiper-pagination-bullet {
-  background-color: #f13024;
-}
-
-.swiper-button-next:after,
-.swiper-button-prev:after,
-.swiper-button-next:after,
-.swiper-rtl .swiper-button-prev:after {
-  color: #f13024;
-}
-
+/* ===== BASE STYLES ===== */
 @layer base {
   body {
     @apply bg-secondary overflow-x-hidden leading-relaxed;
@@ -42,7 +31,7 @@
   }
 
   .input {
-    @apply w-full h-[52px] rounded-lg pl-6;
+    @apply w-full rounded-lg pl-6;
   }
 
   .input,
@@ -55,15 +44,15 @@
   }
 }
 
-/* smooth scrolling */
+/* ===== GLOBAL RESET ===== */
 html {
   scroll-behavior: smooth;
 }
 
-/* full section height */
 section {
   min-height: 100vh;
 }
+
 main {
   overflow-x: hidden;
 }
@@ -72,71 +61,44 @@ img {
   max-width: 100%;
 }
 
-/* FIX DOUBLE SCROLLBAR */
-html, body {
+/* ===== PREVENT OVERFLOW ===== */
+html,
+body {
   overflow-x: hidden;
 }
-/* Prevent decorative elements bleeding */
-#services, #work, #about {
+
+/* ===== SECTION FIX ===== */
+#services,
+#work,
+#about {
   overflow: hidden !important;
   position: relative !important;
 }
-/* Testimonial pagination dots */
+
+/* ===== SWIPER PAGINATION (FINAL CLEAN VERSION) ===== */
+
 .swiper-pagination {
-  bottom: 0px !important;
-}
-
-.swiper-pagination-bullet {
-  width: 10px !important;
-  height: 10px !important;
-  background: rgba(255, 255, 255, 0.3) !important;
-  opacity: 1 !important;
-}
-
-.swiper-pagination-bullet-active {
-  background: #f13024 !important;
-  width: 30px !important;
-  border-radius: 5px !important;
-}
-/* Testimonial pagination dots */
-.custom-pagination {
   display: flex !important;
   justify-content: center !important;
-  gap: 8px !important;
-  margin-top: 16px !important;
+  margin-top: 20px !important;
 }
 
-.custom-pagination .swiper-pagination-bullet {
-  width: 10px !important;
-  height: 10px !important;
-  background: rgba(255, 255, 255, 0.3) !important;
-  opacity: 1 !important;
-  border-radius: 50% !important;
-  cursor: pointer !important;
-  display: inline-block !important;
-}
-
-.custom-pagination .swiper-pagination-bullet-active {
-  background: #f13024 !important;
-  width: 30px !important;
-  border-radius: 5px !important;
-}
-/* Default dots */
+/* normal dots */
 .swiper-pagination-bullet {
-  width: 8px;
-  height: 8px;
-  background: #6b6b6b;
-  opacity: 0.6;
-  border-radius: 50%;
-  transition: all 0.3s ease;
+  width: 8px !important;
+  height: 8px !important;
+  background: #6b6b6b !important;
+  opacity: 0.6 !important;
+  border-radius: 50% !important;
   margin: 0 6px !important;
+  transition: all 0.3s ease !important;
 }
 
-/* Active → red pill */
+/* active red pill */
 .swiper-pagination-bullet-active {
-  width: 28px;
-  height: 8px;
-  background: #ff3c3c;
-  border-radius: 20px;
-  opacity: 1;
+  width: 28px !important;
+  height: 8px !important;
+  background: #ff3c3c !important;
+  border-radius: 20px !important;
+  opacity: 1 !important;
 }
