@@ -121,3 +121,22 @@ html, body {
   width: 30px !important;
   border-radius: 5px !important;
 }
+/* Default dots */
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: #6b6b6b;
+  opacity: 0.6;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  margin: 0 6px !important;
+}
+
+/* Active → red pill */
+.swiper-pagination-bullet-active {
+  width: 28px;
+  height: 8px;
+  background: #ff3c3c;
+  border-radius: 20px;
+  opacity: 1;
+}
