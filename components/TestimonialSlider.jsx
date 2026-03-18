@@ -15,7 +15,7 @@ const testimonialData = [
     name: "Ujjwal Singh",
     position: "Customer",
     message:
-      "Great work on the ui/ux design for my website! Satyam's attention to detail and creativity really made my website stand out. He was able to take my ideas and turn them into a beautiful and functional design that perfectly captures the essence of my brand. ",
+      "Great work on the ui/ux design for my website! Satyam's attention to detail and creativity really made my website stand out. He was able to take my ideas and turn them into a beautiful and functional design that perfectly captures the essence of my brand.",
   },
   {
     image: "/t-avt-3.png",
@@ -31,52 +31,56 @@ const TestimonialSlider = () => {
 
   const prev = () =>
     setCurrent((prev) => (prev === 0 ? testimonialData.length - 1 : prev - 1));
+
   const next = () =>
     setCurrent((prev) => (prev === testimonialData.length - 1 ? 0 : prev + 1));
 
   const person = testimonialData[current];
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center w-full">
+      
       {/* Slide */}
-      <div className="flex flex-col items-center md:flex-row gap-x-8 h-[350px] px-16 w-full">
-        {/* avatar, name, position */}
-        <div className="w-full max-w-[300px] flex flex-col xl:justify-center items-center relative mx-auto xl:mx-0">
-          <div className="flex flex-col justify-center text-center">
-            <div className="mb-2 mx-auto">
-              <Image
-                src={person.image}
-                width={100}
-                height={100}
-                alt={person.name}
-              />
-            </div>
-            <div className="text-lg">{person.name}</div>
-            <div className="text-[12px] uppercase font-extralight tracking-widest">
-              {person.position}
-            </div>
+      <div className="flex flex-col md:flex-row gap-8 px-6 md:px-12 w-full items-center">
+
+        {/* Avatar + Info */}
+        <div className="w-full max-w-[250px] flex flex-col items-center text-center">
+          <Image
+            src={person.image}
+            width={100}
+            height={100}
+            alt={person.name}
+            className="mb-3"
+          />
+          <div className="text-lg">{person.name}</div>
+          <div className="text-[12px] uppercase font-extralight tracking-widest">
+            {person.position}
           </div>
         </div>
 
-        {/* quote & message */}
-        <div className="flex-1 flex flex-col justify-center before:w-[1px] xl:before:bg-white/20 xl:before:absolute xl:before:left-0 xl:before:h-[200px] relative xl:pl-20">
-          <div className="mb-4">
-            <FaQuoteLeft className="text-4xl xl:text-6xl text-white/20 mx-auto md:mx-0" />
-          </div>
-          <div className="xl:text-lg text-center md:text-left">
+        {/* Message */}
+        <div className="flex-1 text-center md:text-left relative md:pl-10">
+          
+          <FaQuoteLeft className="text-4xl md:text-6xl text-white/20 mb-4 mx-auto md:mx-0" />
+          
+          <p className="text-sm md:text-base leading-relaxed">
             {person.message}
-          </div>
+          </p>
         </div>
       </div>
 
-      {/* Dots + arrows */}
-      <div className="flex items-center gap-4 mt-6">
-        {/* prev arrow */}
-        <button onClick={prev} className="text-white/50 hover:text-accent text-2xl transition">
+      {/* Controls */}
+      <div className="flex items-center gap-4 mt-8">
+
+        {/* Prev */}
+        <button
+          onClick={prev}
+          className="text-white/50 hover:text-accent text-2xl transition"
+        >
           &#8592;
         </button>
 
-        {/* dots */}
+        {/* Dots */}
         <div className="flex gap-3">
           {testimonialData.map((_, i) => (
             <button
@@ -91,10 +95,14 @@ const TestimonialSlider = () => {
           ))}
         </div>
 
-        {/* next arrow */}
-        <button onClick={next} className="text-white/50 hover:text-accent text-2xl transition">
+        {/* Next */}
+        <button
+          onClick={next}
+          className="text-white/50 hover:text-accent text-2xl transition"
+        >
           &#8594;
         </button>
+
       </div>
     </div>
   );
