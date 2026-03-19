@@ -3,6 +3,13 @@ import { FaQuoteLeft } from "react-icons/fa";
 import { useState } from "react";
 
 const testimonialData = [
+    {
+    image: "/t-avt4.png",
+    name: "Abhinav Gour",
+    position: "Customer",
+    message:
+      "Satyam delivered an exceptional Graphics design and His attention to detail, creativity, and professionalism were evident throughout the project. We highly recommend his services for anyone looking to create a stunning online presence.",
+  },
   {
     image: "/t-avt-1.png",
     name: "Ayush Jaiswal",
@@ -24,6 +31,7 @@ const testimonialData = [
     message:
       "Satyam delivered an exceptional website that exceeded our expectations. His attention to detail, creativity, and professionalism were evident throughout the project. We highly recommend his services for anyone looking to create a stunning online presence.",
   },
+  
 ];
 
 const TestimonialSlider = () => {

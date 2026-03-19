@@ -6,7 +6,7 @@ import {
   RxRocket,
   RxArrowTopRight,
 } from "react-icons/rx";
-import { FreeMode, Pagination } from "swiper";
+import { FreeMode, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
@@ -59,7 +59,7 @@ const ServiceSlider = () => {
       }}
       modules={[FreeMode, Pagination]}
       freeMode
-      className="h-[240px] sm:h-[340px]"
+      className="h-[280px] sm:h-[340px]"
     >
       {serviceData.map((item, i) => (
         <SwiperSlide key={i}>
